@@ -28,6 +28,8 @@ df_datamart = pd.read_sql(query_almacen, datamart)
 #Compara los DataFrame y quedarse solo con los valores nuevos, los que no se repiten (Cuando se ralizan procesos nuevos con fechas no activas en el sistema)
 df_guardar = df[~df['id_modificated'].isin(df_datamart['id_tiempo'])]
 
+df_resultado_unicos = pd.DataFrame()
+
 if not df_guardar.empty:
     # Realizar la operación para definir el id_tiempo y guardar los resultados en un nuevo DataFrame
     df_resultado = pd.DataFrame()
@@ -35,13 +37,12 @@ if not df_guardar.empty:
     df_resultado['fecha'] = df_guardar['fecha_creacion']
 
     # Eliminar duplicados en la columna 'id_tiempo'
+    
     df_resultado_unicos = df_resultado.drop_duplicates(subset=['id_tiempo'])
-else:
-    # Vaciar el DataFrame
-    df_resultado_unicos = df_resultado_unicos.iloc[0:0]
+
     
 
-df_resultado_unicos
+
 
 
 # %%
